@@ -1,0 +1,103 @@
+#!/usr/bin/env node
+// -*- mode: js -*-
+// vim: set filetype=javascript :
+// Copyright 2013 Joyent, Inc.  All rights reserved.
+
+var fs = require('fs');
+var https = require('https');
+var path = require('path');
+var url = require('url');
+
+var common = require('../lib/cli_common');
+
+
+
+// --- Globals
+
+var Options = {
+    'account': String,
+    'debug': Boolean,
+    'help': Boolean,
+    'keyId': String,
+    'machine': String,
+    'image_version': String,
+    'name': String,
+    'description': String
+}
+
+var ShortOptions = {
+    'a': ['--account'],
+    'd': ['--debug'],
+    'h': ['--help'],
+    '?': ['--help'],
+    'k': ['--keyId'],
+    'm': ['--machine'],
+    'i': ['--image_version'],
+    'n': ['--name'],
+    'd': ['--description']
+};
+
+var usageStr = common.buildUsageString(Options);
+usageStr += common.buildDetailedUsageString(Options);
+
+// --- Mainline
+
+common.parseArguments(Options, ShortOptions, function (parsed) {
+    var opts = {};
+/*    if (parsed.machine) {
+        opts.dataset = parsed.dataset;
+    }
+    if (parsed.name)  {
+        opts.name = parsed.name;
+    }
+    if (parsed['package']) {
+        opts['package'] = parsed['package'];
+    }
+    if (typeof (parsed['enable-firewall']) !== 'undefined') {
+        opts.firewall_enabled = parsed['enable-firewall'];
+    }
+    if (parsed.tag) {
+        var i;
+        for (i = 0; i < parsed.tag.length; i++) {
+            var tmp = parsed.tag[i].split('=', 1);
+            if (!tmp || tmp.length !== 2) {
+                console.error(parsed.tag[i] +
+                    ' is an invalid tag; try foo=bar');
+                process.exit(1);
+            }
+            opts['tag.' + tmp[0]] = tmp[1];
+        }
+    }
+    if (parsed.metadata) {
+        var j;
+        for (j = 0; j < parsed.metadata.length; j++) {
+            var tmp2 = parsed.metadata[j].split('=', 1);
+            if (!tmp2 || tmp2.length !== 2) {
+                console.error(parsed.metadata[j] +
+                    ' is invalid metadata; try foo=bar');
+                process.exit(1);
+            }
+            opts['metadata.' + tmp2[0]] = tmp2[1];
+        }
+    }
+    if (parsed.script) {
+        var us = fs.readFileSync(parsed.script, 'utf-8');
+        opts['metadata.user-script'] = us.toString();
+    }
+
+    if (parsed.networks) {
+        opts.networks = parsed.networks;
+    }
+*/
+    if (parsed.machine)
+        opts.machine = parsed.machine;
+    if (parsed.name)
+        opts.name = parsed.name;
+    if (parsed.image_version)
+        opts.version = parsed.image_version;
+    if (parsed.description)
+        opts.description = parsed.description;
+
+    var client = common.newClient(parsed);
+    client.createImageFromMachine(opts, common.callback);
+}, usageStr);
