@@ -22,7 +22,11 @@ var Options = {
     'machine': String,
     'image_version': String,
     'name': String,
-    'description': String
+    'description': String,
+    'homepage': String
+    'eula': String,
+    'acl': Array,
+    'tags': String
 }
 
 var ShortOptions = {
@@ -34,7 +38,11 @@ var ShortOptions = {
     'm': ['--machine'],
     'i': ['--image_version'],
     'n': ['--name'],
-    'd': ['--description']
+    'd': ['--description'],
+    'w': ['--homepage'],
+    'e': ['--eula'],
+    'a': ['--acl'],
+    't': ['--tags']
 };
 
 var usageStr = common.buildUsageString(Options);
@@ -97,6 +105,14 @@ common.parseArguments(Options, ShortOptions, function (parsed) {
         opts.version = parsed.image_version;
     if (parsed.description)
         opts.description = parsed.description;
+    if (parsed.homepage)
+        opts.homepage = parsed.homepage
+    if (parsed.eula)
+        opts.eula = parsed.eula
+    if (parsed.acl)
+        opts.acl = parsed.acl
+    if (parsed.tags)
+        opts.tags = JSON.parse(parsed.tags)
 
     var client = common.newClient(parsed);
     client.createImageFromMachine(opts, common.callback);
