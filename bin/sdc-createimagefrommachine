@@ -20,7 +20,7 @@ var Options = {
     'help': Boolean,
     'keyId': String,
     'machine': String,
-    'image_version': String,
+    'imageVersion': String,
     'name': String,
     'description': String,
     'homepage': String
@@ -36,13 +36,9 @@ var ShortOptions = {
     '?': ['--help'],
     'k': ['--keyId'],
     'm': ['--machine'],
-    'i': ['--image_version'],
+    'i': ['--imageVersion'],
     'n': ['--name'],
-    'd': ['--description'],
-    'w': ['--homepage'],
-    'e': ['--eula'],
-    'a': ['--acl'],
-    't': ['--tags']
+    'd': ['--description']
 };
 
 var usageStr = common.buildUsageString(Options);
